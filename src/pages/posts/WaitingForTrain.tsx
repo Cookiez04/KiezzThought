@@ -1,13 +1,10 @@
 import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
-import html2canvas from 'html2canvas';
 
 // Component to handle the "Erosion" effect for a block of text
-const ErodingBlock = ({ children, delay = 0 }: { children: React.ReactNode, delay?: number }) => {
+const ErodingBlock = ({ children }: { children: React.ReactNode }) => {
   const ref = useRef<HTMLDivElement>(null);
-  const [particles, setParticles] = useState<{x: number, y: number, r: number, d: number}[]>([]);
-  const [eroded, setEroded] = useState(false);
   
   const { scrollYProgress } = useScroll({
     target: ref,
