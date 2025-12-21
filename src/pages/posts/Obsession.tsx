@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
+import SubconsciousStream from '../../components/SubconsciousStream';
 
 // Ash particle effect (falling snow/ash)
 const AshParticles = () => {
@@ -88,6 +89,7 @@ export default function Obsession() {
         position: 'relative'
       }}
     >
+      <SubconsciousStream />
       <AshParticles />
 
       {/* Navigation */}
