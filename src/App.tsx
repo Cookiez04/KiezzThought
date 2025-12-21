@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Home from './pages/Home';
 import WaitingForTrain from './pages/posts/WaitingForTrain';
+import Obsession from './pages/posts/Obsession';
 import { useEffect } from 'react';
 
 // Scroll to top on route change
@@ -21,6 +22,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/post/waiting-for-train" element={<WaitingForTrain />} />
+        <Route path="/post/obsession" element={<Obsession />} />
       </Routes>
     </Router>
   );
