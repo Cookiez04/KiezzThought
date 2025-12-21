@@ -111,7 +111,7 @@ export default function Obsession() {
                 fontSize: 'clamp(2.5rem, 8vw, 5rem)',
                 textTransform: 'uppercase', 
                 lineHeight: 0.9, 
-                color: '#fff',
+                color: titleColor,
                 fontWeight: 900,
                 letterSpacing: '-2px',
                 wordBreak: 'break-word'
