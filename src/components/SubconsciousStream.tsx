@@ -34,7 +34,6 @@ export default function SubconsciousStream() {
 
   useEffect(() => {
     if (!isEnabled) {
-      setThoughts([]);
       return;
     }
 
@@ -68,7 +67,10 @@ export default function SubconsciousStream() {
     <>
       {/* Toggle Button */}
       <button 
-        onClick={() => setIsEnabled(!isEnabled)}
+        onClick={() => {
+          if (isEnabled) setThoughts([]);
+          setIsEnabled(!isEnabled);
+        }}
         style={{
           position: 'fixed',
           bottom: '20px',
@@ -101,7 +103,7 @@ export default function SubconsciousStream() {
         overflow: 'hidden'
       }}>
         <AnimatePresence>
-          {thoughts.map((thought) => (
+          {(isEnabled ? thoughts : []).map((thought) => (
             <motion.div
               key={thought.id}
               initial={{ 

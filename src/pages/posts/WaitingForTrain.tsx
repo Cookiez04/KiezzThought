@@ -1,6 +1,24 @@
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
+
+const DUST_PARTICLES = (() => {
+  const width = typeof window === 'undefined' ? 1200 : window.innerWidth;
+  const height = typeof window === 'undefined' ? 800 : window.innerHeight;
+  const count = 50;
+
+  return Array.from({ length: count }).map((_, i) => ({
+    id: i,
+    startX: Math.random() * width,
+    startY: height + 100,
+    endY: -100,
+    driftX: Math.random() * 100 - 50,
+    peakOpacity: Math.random() * 0.5,
+    size: Math.random() * 2 + 1,
+    duration: 10 + Math.random() * 20,
+    delay: Math.random() * 10
+  }));
+})();
 
 // Component to handle the "Erosion" effect for a block of text
 const ErodingBlock = ({ children }: { children: React.ReactNode }) => {
@@ -29,39 +47,31 @@ const ErodingBlock = ({ children }: { children: React.ReactNode }) => {
 
 // Dust particles that float up from the bottom
 const Dust = () => {
-  const [dusts, setDusts] = useState<number[]>([]);
-
-  useEffect(() => {
-    const count = 50;
-    const newDusts = Array.from({ length: count }).map((_, i) => i);
-    setDusts(newDusts);
-  }, []);
-
   return (
     <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 0 }}>
-      {dusts.map((i) => (
+      {DUST_PARTICLES.map((d) => (
         <motion.div
-          key={i}
+          key={d.id}
           initial={{ 
-            x: Math.random() * window.innerWidth, 
-            y: window.innerHeight + 100,
+            x: d.startX,
+            y: d.startY,
             opacity: 0 
           }}
           animate={{ 
-            y: -100,
-            opacity: [0, Math.random() * 0.5, 0],
-            x: `+=${Math.random() * 100 - 50}`
+            y: d.endY,
+            opacity: [0, d.peakOpacity, 0],
+            x: `+=${d.driftX}`
           }}
           transition={{ 
-            duration: 10 + Math.random() * 20, 
+            duration: d.duration, 
             repeat: Infinity, 
             ease: "linear",
-            delay: Math.random() * 10
+            delay: d.delay
           }}
           style={{
             position: 'absolute',
-            width: Math.random() * 2 + 1,
-            height: Math.random() * 2 + 1,
+            width: d.size,
+            height: d.size,
             background: '#fff',
             borderRadius: '50%'
           }}

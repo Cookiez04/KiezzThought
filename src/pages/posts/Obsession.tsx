@@ -1,44 +1,55 @@
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef, useState, useEffect } from 'react';
+import { useRef } from 'react';
 import SubconsciousStream from '../../components/SubconsciousStream';
+
+const ASH_PARTICLES = (() => {
+  const width = typeof window === 'undefined' ? 1200 : window.innerWidth;
+  const height = typeof window === 'undefined' ? 800 : window.innerHeight;
+  const count = 100;
+
+  return Array.from({ length: count }).map((_, i) => ({
+    id: i,
+    startX: Math.random() * width,
+    startY: -10,
+    endY: height + 10,
+    driftX: (Math.random() - 0.5) * 100,
+    size: Math.random() * 3 + 1,
+    duration: 5 + Math.random() * 10,
+    delay: Math.random() * 5
+  }));
+})();
 
 // Ash particle effect (falling snow/ash)
 const AshParticles = () => {
-  const [particles, setParticles] = useState<number[]>([]);
-
-  useEffect(() => {
-    setParticles(Array.from({ length: 100 }).map((_, i) => i));
-  }, []);
-
   return (
     <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 5 }}>
-      {particles.map((i) => (
+      {ASH_PARTICLES.map((p) => (
         <motion.div
-          key={i}
+          key={p.id}
           initial={{ 
-            x: Math.random() * window.innerWidth, 
-            y: -10,
+            x: p.startX, 
+            y: p.startY,
             opacity: 0,
             rotate: 0
           }}
           animate={{ 
-            y: window.innerHeight + 10,
-            x: (Math.random() - 0.5) * 100, // Gentle drift
+            y: p.endY,
+            x: p.driftX,
             opacity: [0, 0.8, 0],
             rotate: 360
           }}
           transition={{ 
-            duration: 5 + Math.random() * 10, // Slow falling
+            duration: p.duration,
             repeat: Infinity, 
             ease: "linear",
-            delay: Math.random() * 5
+            delay: p.delay
           }}
           style={{
             position: 'absolute',
-            width: Math.random() * 3 + 1,
-            height: Math.random() * 3 + 1,
-            background: '#cccccc', // Ash grey
+            width: p.size,
+            height: p.size,
+            background: '#cccccc',
             borderRadius: '50%',
             filter: 'blur(1px)'
           }}
